@@ -19,7 +19,7 @@ if(isset($_POST['view_payment_history'])){
   $payment_info=$data['payment_id_info'];
   $program_id=$payment_info['program_id'];
   
-  $program_name=$program_ob->get_separate_program_info("name",$program_id);
+  $program_name=$program_ob->get_separate_program_info($program_id,"name");
   $program_name=$program_name['name'];
 
   $type=$payment_info['type'];

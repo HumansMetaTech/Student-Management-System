@@ -166,7 +166,7 @@ class set_payment {
 
 
  public function check_date_interver($program_id,$year,$month){
-  $p_info=$this->program_ob->get_separate_program_info("start,end",$program_id);
+  $p_info=$this->program_ob->get_separate_program_info($program_id,"start,end");
   $start=$p_info['start'];
   $end=$p_info['end'];
      $info=$this->get_month_list($start,$end);

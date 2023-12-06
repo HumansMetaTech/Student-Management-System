@@ -2,51 +2,62 @@
 
 
 class user {
-   
+  public $loginUserId;
+  public $conn;
+  public $db;
+  public $result;
+ 
+  public function __construct($id = "")
+  {
+    $this->loginUserId = $id;
+    $this->db = new Database();
+    $this->conn = $this->db->conn;
+  }
 
-//starting connection
-public $login_user_id;
- public function __construct($id=""){
-     $this->login_user_id=$id;
-     $this->db=new database();
-     $this->conn=$this->db->conn;
-
- }
-
- public function select($query){
-   return $this->result=$this->db->select($query);
+  public function select($query)
+  {
+    return $this->result = $this->db->select($query);
   }
 
 //end dabtabase connection
 
-public function get_user_info(){
-	$info=array();
-	$sql="select * from user";
-	$res=$this->select($sql);
-	while ($row=mysqli_fetch_array($res)) {
-		$id=$row['id'];
-		$sub=$this->db->process_mysql_array($row);
-		$sub['photo_orginal']=$row['photo'];
-		$sub['phone']='0'.$sub['phone'];
-		$sub['photo']="upload/user_photo/".$sub['photo'];
-		$info[$id]=$sub;
-	}
-	return $info;
+  public function get_user_info()
+  {
+    $info = array();
+    $sql = "SELECT * FROM user";
+    $res = $this->select($sql);
+
+    while ($row = mysqli_fetch_array($res)) {
+        $id = $row['id'];
+        $sub = $this->processUserRow($row);
+        $info[$id] = $sub;
+    }
+    return $info;
+  }
+
+private function processUserRow($row)
+{
+  $sub = $this->db->process_mysql_array($row);
+  $sub['photo_original'] = $row['photo'];
+  $sub['phone'] = '0' . $sub['phone'];
+  $sub['photo'] = "upload/user_photo/" . $sub['photo'];
+  return $sub;
 }
 
 
 public function cheikh_user($uid){
 	$info=$this->get_user_info();
-    foreach ($info as $key => $value) {
-    	$id=$value['id'];
-    	if($uid==$id)return 1;
-    }
-    return 0;
+  foreach ($info as $key => $value)
+  {
+    $id=$value['id'];
+    if($uid==$id)return 1;
+  }
+  return 0;
 }
  
 public function get_login_user(){
 	$info=$this->get_user_info();
-	return $info[$this->login_user_id];
+	return $info['id'] = $this->loginUserId;
 }
 
 public function get_browser($browser){

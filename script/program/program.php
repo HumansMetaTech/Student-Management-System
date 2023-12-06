@@ -100,7 +100,7 @@ return $info;
  } 
  
 
-public function get_separate_program_info($select_value="*",$program_id){
+public function get_separate_program_info($program_id,$select_value="*"){
   $sql="select $select_value from program where id=$program_id";
   $info=$this->db->get_sql_array($sql);
   if(isset($info[0]))$info=$info[0];
@@ -108,7 +108,7 @@ public function get_separate_program_info($select_value="*",$program_id){
 }
 
 public function get_program_type_option($program_id){
-   $info=$this->get_separate_program_info("type",$program_id);
+   $info=$this->get_separate_program_info($program_id,"type");
    $type=$info['type'];
    if($type==1 || $type==2)echo "<option value='1'>Admission Fee</option>";
    if($type==2)echo "<option value='2'>Monthly Fee</option>";
